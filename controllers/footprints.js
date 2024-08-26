@@ -20,6 +20,15 @@ router.get('/', async (req, res) => {
   }
 });
 
+router.get('/:footprintId', async (req, res) => {
+  try {
+    const footprint = await Footprint.findById(req.params.footprintId).populate('author');
+    res.status(200).json(footprint);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
 router.post('/', async (req, res) => {
   try {
     req.body.author = req.user._id;
