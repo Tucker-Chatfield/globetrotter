@@ -41,4 +41,26 @@ router.post('/', async (req, res) => {
   }
 });
 
+router.put('/:footprintId', async (req, res) => {
+  try {
+    const footprint = await Footprint.findById(req.params.footprintId);
+
+    if (!footprint.author.equals(req.user._id)) {
+      return res.status(403).send("You're not allowed to do that!");
+    }
+
+    const updatedFootprint = await Footprint.findByIdAndUpdate(
+      req.params.footprintId,
+      req.body,
+      { new: true }
+    );
+
+    updatedFootprint._doc.author = req.user;
+
+    res.status(200).json(updatedFootprint);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
 module.exports = router;
