@@ -81,18 +81,6 @@ router.put('/:footprintId', async (req, res) => {
   }
 });
 
-router.put('/:footprintId/comments/:commentId', async (req, res) => {
-  try {
-    const footprint = await Footprint.findById(req.params.footprintId);
-    const comment = footprint.comments.id(req.params.commentId);
-    comment.text = req.body.text;
-    await footprint.save();
-    res.status(200).json({ message: 'Ok' });
-  } catch (error) {
-    res.status(500).json(err);
-  }
-});
-
 router.delete('/:footprintId', async (req, res) => {
   try {
     const footprint = await Footprint.findById(req.params.footprintId);
@@ -103,17 +91,6 @@ router.delete('/:footprintId', async (req, res) => {
 
     const deletedFootprint = await Footprint.findByIdAndDelete(req.params.footprintId);
     res.status(200).json(deletedFootprint);
-  } catch (error) {
-    res.status(500).json(error);
-  }
-});
-
-router.delete('/:footprintId/comments/:commentId', async (req, res) => {
-  try {
-    const footprint = await Footprint.findById(req.params.footprintId);
-    footprint.comments.remove({ _id: req.params.commentId });
-    await footprint.save();
-    res.status(200).json({ message: 'Ok' }); 
   } catch (error) {
     res.status(500).json(error);
   }
