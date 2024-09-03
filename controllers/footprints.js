@@ -10,6 +10,7 @@ const router = express.Router();
 
 router.use(verifyToken);
 
+// GET footprints
 router.get('/', async (req, res) => {
   try {
     const footprints = await Footprint.find({})
@@ -21,6 +22,7 @@ router.get('/', async (req, res) => {
   }
 });
 
+// GET a specific footprint
 router.get('/:footprintId', async (req, res) => {
   try {
     const footprint = await Footprint.findById(req.params.footprintId).populate('author');
@@ -30,6 +32,7 @@ router.get('/:footprintId', async (req, res) => {
   }
 });
 
+// POST a new footprint
 router.post('/', async (req, res) => {
   try {
     req.body.author = req.user._id;
@@ -42,6 +45,7 @@ router.post('/', async (req, res) => {
   }
 });
 
+// POST a comment on a specific footprint
 router.post('/:footprintId/comments', async (req, res) => {
   try {
     req.body.author = req.user._id;
@@ -59,6 +63,7 @@ router.post('/:footprintId/comments', async (req, res) => {
   }
 });
 
+// PUT to update a footprint
 router.put('/:footprintId', async (req, res) => {
   try {
     const footprint = await Footprint.findById(req.params.footprintId);
@@ -81,6 +86,7 @@ router.put('/:footprintId', async (req, res) => {
   }
 });
 
+// PUT to update a comment from a footprint
 router.put('/:footprintId/comments/:commentId', async (req, res) => {
   try {
     const footprint = await Footprint.findById(req.params.footprintId);
@@ -93,6 +99,7 @@ router.put('/:footprintId/comments/:commentId', async (req, res) => {
   }
 });
 
+// DELETE a footprint
 router.delete('/:footprintId', async (req, res) => {
   try {
     const footprint = await Footprint.findById(req.params.footprintId);
@@ -108,6 +115,7 @@ router.delete('/:footprintId', async (req, res) => {
   }
 });
 
+// DELETE a comment from a footprint
 router.delete('/:footprintId/comments/:commentId', async (req, res) => {
   try {
     const footprint = await Footprint.findById(req.params.footprintId);
