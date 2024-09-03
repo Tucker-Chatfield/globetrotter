@@ -14,7 +14,10 @@ mongoose.connect(process.env.MONGODB_URI);
 mongoose.connection.on('connected', () => {
     console.log(`Connected to MongoDB ${mongoose.connection.name}.`);
 });
-app.use(cors());
+app.use(cors({
+  origin: ['https://globetrotter-project.netlify.app'],
+  credentials: true,
+}));
 app.use(express.json());
 
 // Routes go here
